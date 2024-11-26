@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+
 const SkiStudent = require("../models/SkiStudent");
 
 // GET all students
@@ -19,12 +21,22 @@ router.get("/:id", getStudent, (req, res) => {
 
 // CREATE a new student
 router.post("/", async (req, res) => {
-  const student = new SkiStudent({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  });
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
   try {
+    // Hash the password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const student = new SkiStudent({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
     const newStudent = await student.save();
     res.status(201).json(newStudent);
   } catch (err) {
