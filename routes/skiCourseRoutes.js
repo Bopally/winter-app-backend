@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // CREATE a new course
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   const course = new SkiCourse({
     title: req.body.title,
     instructor: req.body.instructor,
