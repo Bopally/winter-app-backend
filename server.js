@@ -15,9 +15,12 @@ const authRoutes = require("./routes/authRoutes.js");
 // Import middleware
 const authenticateToken = require("./middleware/authenticateToken");
 
+const MONGODB_URI =
+  process.env.MONGODB_URI ?? "mongodb://localhost:27017/winterapp";
+
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://localhost:27017/winterapp")
+  .connect(MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("Could not connect to MongoDB", error));
 
