@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 
 const SkiInstructor = require("../models/SkiInstructor");
 
@@ -23,13 +22,10 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    // Hash the password before storing it
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const instructor = new SkiInstructor({
       name,
       email,
-      password: hashedPassword,
+      password,
       picture,
       description,
       experience,

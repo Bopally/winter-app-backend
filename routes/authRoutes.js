@@ -18,6 +18,8 @@ async function loginUser(req, res, Model) {
       req.body.password,
       user.password
     );
+
+    console.log(req.body.password);
     if (!validPassword)
       return res.status(400).json({ message: "Invalid email or password." });
 
