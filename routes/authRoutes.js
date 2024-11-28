@@ -22,11 +22,14 @@ async function loginUser(req, res, Model) {
       return res.status(400).json({ message: "Invalid email or password." });
 
     // creation of JWT token
+    const JWT_SECRET = process.env.JWT_SECRET ?? "your_jwt_secret_key";
+
     const token = jwt.sign(
       { _id: user._id, role: Model.modelName },
-      "your_jwt_secret_key",
-      { expiresIn: "1h" }
+      JWT_SECRET,
+      { expiresIn: "7d" }
     );
+
     res.json({ token: token });
   } catch (err) {
     res.status(500).json({ message: err.message });
