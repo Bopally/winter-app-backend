@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
 // GET a specific course by ID
 router.get("/:id", async (req, res) => {
   try {
+    // attempt to find the course by ID and populate instructor details
     const course = await SkiCourse.findById(req.params.id).populate(
       "instructor"
     );
